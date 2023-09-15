@@ -1,0 +1,222 @@
+---
+title: "ErinRoss_Lab4"
+author: "Erin Ross"
+format: html
+editor: visual
+---
+
+### **1. Read in the data**
+
+```{r}
+setwd('/Users/erinross/Desktop/PM566/DATA/')
+
+library(data.table)
+library(ggplot2)
+library(magrittr)
+library(RColorBrewer)
+library(Hmisc)
+library(leaflet)
+library(ggpubr)
+library(tidyverse)
+
+met <- data.table::fread("met_all.gz")
+str(met)
+```
+
+### **2. Prepare the data**
+
+```{r}
+met.clean<- met[temp >-17,]
+summary(met.clean$temp)
+
+summary(met.clean$elev)
+met.clean$elev[met.clean$elev == 9999.0] <- NA
+summary(met.clean$elev)
+
+summary(met.clean$lat)
+summary(met.clean$lon)
+
+met.clean$date <- paste(met.clean$year, met.clean$month, met.clean$day, sep = "-")
+met.clean$date <- as.Date(met.clean$date)
+
+met.clean$week <- data.table::week(met.clean$date) # All observations in one month1
+summary(met.clean$week)
+
+met.week1 <- met.clean[week <33]
+table(met.week1$day, met.week1$week) #pick out what days we have in weeks 31 and 32
+met.week1 <- met.week1[day <8]
+
+#Mean by station variables
+met.avgs <- met.week1[,.(
+  temp     = mean(temp,na.rm=TRUE),
+  rh       = mean(rh,na.rm=TRUE),
+  wind.sp  = mean(wind.sp,na.rm=TRUE),
+  vis.dist = mean(vis.dist,na.rm=TRUE),
+  dew.point = mean(dew.point,na.rm=TRUE),
+  lat      = mean(lat),
+  lon      = mean(lon), 
+  elev     = mean(elev,na.rm=TRUE)
+), by=c("USAFID", "day")]
+
+#Region variable NW, SW, NE, SE lon = -98.00 and lat = 39.71 
+met.avgs$region[met.avgs$lon < -98.00 & met.avgs$lat >39.71] <- "SW"
+met.avgs$region[met.avgs$lon < -98.00 & met.avgs$lat <39.71] <- "SE"
+met.avgs$region[met.avgs$lon > -98.00 & met.avgs$lat <39.71] <- "NE"
+met.avgs$region[met.avgs$lon > -98.00 & met.avgs$lat >39.71] <- "NW"
+table(met.avgs$region)
+
+#Elevation categories
+met.avgs$elev_cat[met.avgs$elev > 252] <- "high"
+met.avgs$elev_cat[met.avgs$elev < 253] <- "low"
+summary(met.avgs$elev)
+```
+
+### **3. Use `geom_violin` to examine the wind speed and dew point by region**
+
+```{r}
+ggplot(met.avgs) + geom_boxplot(aes(x=region, y= wind.sp)) +
+  labs(title = "Average Daily Wind Speen by Region",
+       x = "Region",
+       y = "Average Daily Wind Speed (mph)")
+
+# Plot wind speed + dew point by region
+ggplot(met.avgs) + 
+  geom_violin(aes(x=1, y= wind.sp, group = region, fill = "Wind Speed (mph)")) +
+  labs(title = "Average Daily Wind Speed & Dew Point by Region",
+       y = "",
+       x = "") +
+  geom_violin(aes(x=2, y= dew.point, group = region, fill = "Dew Point (C)")) +
+  scale_fill_manual(values = c("lightblue","darkblue"),name="Measurement") + 
+  facet_wrap(~region, nrow = 1) +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+```
+
+The wind speed for each region is similar and has a smaller range compared to wind speed. Dew point is more variable , and probably lower, in the South.
+
+### **4. Use `geom_jitter` with `stat_smooth` to examine the association between dew point and wind speed by region**
+
+```{r}
+ggplot(met.avgs) + 
+  geom_jitter(aes(x=1, y= wind.sp, group = region, color = "Wind Speed (mph)")) +
+  labs(title = "Average Daily Wind Speed & Dew Point by Region",
+       y = "",
+       x = "") +
+  geom_jitter(aes(x=2, y= dew.point, group = region, color = "Dew Point (C)")) +
+  scale_color_manual(values = c("lightblue","darkblue"),name="Measurement") + 
+  facet_wrap(~region, nrow = 1) +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+```
+
+We see that wind speed remains clustered near but never below zero (makes sense) vs dew point is much more variable and can go below zero (makes sense). Wind speeds similar across regions, NE may have higher dew point compared other regions.
+
+### **4. Use `geom_jitter` with `stat_smooth` to examine the association between dew point and wind speed by region**
+
+```{r}
+ggplot(met.avgs, aes(x=dew.point, y= wind.sp, color = region, linetype = region)) + 
+  geom_point() +
+  labs(title = "Relationship of Wind Speed & Dew Point by Region",
+       y = "Average Daily Wind Speed (mph)",
+       x = "Average Daily Dew Point (C)") +
+  theme_classic() +
+  geom_smooth(method = lm, se = FALSE, col = "black")
+  #guide_legend(title = "Region") why won't you rename this legend
+```
+
+There is not a strong relationship between wind speed and dew point since the regression lines are slope \~0.
+
+### **5. Use `geom_bar` to create barplots of the weather stations by elevation category colored by region**
+
+```{r}
+# weather stations by elevation by region
+str(met.avgs)
+met.day1avg <- met.avgs[day ==1] #make each weather station appear only once
+ggplot(met.day1avg) + geom_bar(aes(x=elev_cat, group = elev_cat, fill = elev_cat), stat="count") +
+  labs(title = "Number of Weather Stations by Elevation & Region",
+       y = "Number of Weather Stations",
+       x = "") +
+  theme_classic() +
+  scale_fill_brewer(palette = "Dark2", name = "Elevation") +
+  facet_wrap(~region)
+```
+
+There are the most weather stations in the NE, which also has a lot of low elevation weather stations (makes sense). The NW, SW, SE has more high elevation weather stations, which makes sense because there are the Rockies and Appalachia in those regions.
+
+### **6. Use `stat_summary` to examine mean dew point and wind speed by region with standard deviation error bars**
+
+```{r}
+ggplot(met.avgs) + 
+  stat_summary(mapping = aes(x = dew.point, y = region, color = "red"),
+               fun.data="mean_sdl",
+               fun = mean) + 
+    stat_summary(mapping = aes(x = dew.point, y = region, color = "red"),
+                 fun.data = mean_se,  
+                 geom = "errorbar") + 
+    stat_summary(mapping = aes(x = wind.sp, y = region, color = "blue"),
+               fun.data="mean_sdl",
+               fun = mean) + 
+    stat_summary(mapping = aes(x = wind.sp, y = region, color = "blue"),
+                 fun.data = mean_se,  
+                 geom = "errorbar") +
+  coord_flip() + 
+  labs(title = "Average Dew Point & Wind Speed by Region",
+      y = "Region") + 
+  scale_color_brewer(palette = "Dark2", labels = c("Wind Speed (mph)","Dew Point (C)"), name = "Measurement")
+```
+
+-   The spread of dew point is greater than the dispersion of wind speed, however the standard error looks pretty small (probably did this wrong).
+
+### **7. Make a map showing the spatial trend in relative humidity in the US**
+
+```{r}
+met.rh <- met.avgs[!is.na(rh)]
+
+str(met.avgs)
+
+summary(met.rh$rh)
+# Generating a color palette
+rh.pal <- colorNumeric(c('lightblue','blue','darkblue'), domain=met.rh$rh)
+rh.pal
+
+met.rh
+
+order.humidity<-order(met.rh$rh)
+humid.places<-met.rh[order.humidity,]
+
+humid.places$ranking <- NA
+humid.places$ranking[order.humidity] <- 1:nrow(humid.places)
+
+RHmap <- leaflet(humid.places) %>% 
+  addProviderTiles('CartoDB.Positron')   %>%
+  addCircles(
+    lat = ~lat, lng=~lon,
+    label = ~paste0(round(temp,2), ' C'), color = ~ rh.pal(rh),
+    opacity = 1, fillOpacity = 1, radius = 500)  %>%
+  addLegend('bottomleft', pal=rh.pal, values=humid.places$rh,
+          title='Relative Humidity (%)', opacity=1) %>% 
+  addMarkers(lat = ~lat, lng=~lon,
+              label= ~ifelse(humid.places$ranking <11, as.character(USAFID),""))
+RHmap
+```
+
+More humid on east coast/south, less humid in west/mountain regions.
+
+### **8. Use a ggplot extension**
+
+```{r}
+#ggpubr
+#Compare dew point by region
+regional_comparision <- list(c("NW","NE"), c("NW","SW"), c("NW","SE"), c("NE","SW"), c("NE","SE"), c("SE","SW"))
+
+met.avgsdf <- as.data.frame(met.avgs)
+met.avgsdf <- met.avgsdf[!is.na(met.avgsdf$dew.point),] #remove NA for dew point
+
+ggviolin(met.avgsdf, x= "region", y = "dew.point", fill = "region") + 
+  labs(title = "Average Daily Dew Point by Region",
+       y = "Average Daily Dew Point (C)",
+       x = "Region") +  
+  scale_fill_brewer(palette = "Set3", name = "Region") 
+
+# stat_compare_means(method = t.test, comparisons = regional_comparision) I cannot get this to work, getting "Error in match(x, table, nomatch = 0L):'match' requires vector arguments"
+```
