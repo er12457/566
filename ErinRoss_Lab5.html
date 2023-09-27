@@ -224,10 +224,10 @@ Attaching package: 'dplyr'</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.table</span>(dat)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>Met.Avgs <span class="ot">&lt;-</span> dat[, .(</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">temp_median      =</span> <span class="fu">median</span>(temp, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">wind.sp_median   =</span> <span class="fu">median</span>(wind.sp, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">atm.press_median =</span> <span class="fu">median</span>(atm.press, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>Met.Avgs.Stations <span class="ot">&lt;-</span> dat[, .(</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">temp_median_station      =</span> <span class="fu">median</span>(temp, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">wind.sp_median_station   =</span> <span class="fu">median</span>(wind.sp, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">atm.press_median_station =</span> <span class="fu">median</span>(atm.press, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    by <span class="ot">=</span> USAFID</span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    ][<span class="fu">order</span>(USAFID)]</span>
@@ -247,44 +247,147 @@ Attaching package: 'dplyr'</code></pre>
 <pre><code>    0%    25%    50%    75%   100% 
  960.5 1011.8 1014.1 1016.4 1059.9 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>Met.Median.Temp <span class="ot">&lt;-</span><span class="fu">subset</span>(Met.Avgs, temp_median <span class="sc">==</span> <span class="fl">23.5</span>)</span>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>Met.Median.Temp <span class="ot">&lt;-</span><span class="fu">subset</span>(Met.Avgs.Stations, temp_median_station <span class="sc">==</span> <span class="fl">23.5</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Met.Median.Temp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Key: &lt;USAFID&gt;
-   USAFID temp_median wind.sp_median atm.press_median
-    &lt;int&gt;       &lt;num&gt;          &lt;num&gt;            &lt;num&gt;
-1: 720501        23.5            1.5               NA
-2: 722031        23.5            0.0               NA
-3: 722148        23.5            0.0               NA
-4: 723055        23.5            0.0               NA
-5: 723067        23.5            1.5               NA
-6: 723177        23.5            0.0               NA</code></pre>
+   USAFID temp_median_station wind.sp_median_station atm.press_median_station
+    &lt;int&gt;               &lt;num&gt;                  &lt;num&gt;                    &lt;num&gt;
+1: 720501                23.5                    1.5                       NA
+2: 722031                23.5                    0.0                       NA
+3: 722148                23.5                    0.0                       NA
+4: 723055                23.5                    0.0                       NA
+5: 723067                23.5                    1.5                       NA
+6: 723177                23.5                    0.0                       NA</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>Met.Median.Wind <span class="ot">&lt;-</span><span class="fu">subset</span>(Met.Avgs, wind.sp_median <span class="sc">==</span> <span class="fl">2.10</span>)</span>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>Met.Median.Wind <span class="ot">&lt;-</span><span class="fu">subset</span>(Met.Avgs.Stations, wind.sp_median_station <span class="sc">==</span> <span class="fl">2.10</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Met.Median.Wind)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Key: &lt;USAFID&gt;
-   USAFID temp_median wind.sp_median atm.press_median
-    &lt;int&gt;       &lt;num&gt;          &lt;num&gt;            &lt;num&gt;
-1: 720110        31.0            2.1               NA
-2: 720258        17.0            2.1               NA
-3: 720266        21.0            2.1               NA
-4: 720272        18.0            2.1               NA
-5: 720273        28.6            2.1               NA
-6: 720279        25.0            2.1               NA</code></pre>
+   USAFID temp_median_station wind.sp_median_station atm.press_median_station
+    &lt;int&gt;               &lt;num&gt;                  &lt;num&gt;                    &lt;num&gt;
+1: 720110                31.0                    2.1                       NA
+2: 720258                17.0                    2.1                       NA
+3: 720266                21.0                    2.1                       NA
+4: 720272                18.0                    2.1                       NA
+5: 720273                28.6                    2.1                       NA
+6: 720279                25.0                    2.1                       NA</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>Met.Median.Atm <span class="ot">&lt;-</span><span class="fu">subset</span>(Met.Avgs, atm.press_median <span class="sc">==</span> <span class="fl">1014.1</span>)</span>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>Met.Median.Atm <span class="ot">&lt;-</span><span class="fu">subset</span>(Met.Avgs.Stations, atm.press_median_station <span class="sc">==</span> <span class="fl">1014.1</span>)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Met.Median.Atm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Key: &lt;USAFID&gt;
-   USAFID temp_median wind.sp_median atm.press_median
-    &lt;int&gt;       &lt;num&gt;          &lt;num&gt;            &lt;num&gt;
-1: 722420        30.0            4.6           1014.1
-2: 723830        23.3            5.1           1014.1
-3: 724885        24.7            2.6           1014.1
-4: 724940        18.9            5.1           1014.1
-5: 725376        22.8            3.1           1014.1
-6: 725975        16.1            2.1           1014.1</code></pre>
+   USAFID temp_median_station wind.sp_median_station atm.press_median_station
+    &lt;int&gt;               &lt;num&gt;                  &lt;num&gt;                    &lt;num&gt;
+1: 722420                30.0                    4.6                   1014.1
+2: 723830                23.3                    5.1                   1014.1
+3: 724885                24.7                    2.6                   1014.1
+4: 724940                18.9                    5.1                   1014.1
+5: 725376                22.8                    3.1                   1014.1
+6: 725975                16.1                    2.1                   1014.1</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="question-2-representative-station-per-state" class="level2">
+<h2 class="anchored" data-anchor-id="question-2-representative-station-per-state"><strong>Question 2: Representative station per state</strong></h2>
+<section id="just-like-the-previous-question-you-are-asked-to-identify-what-is-the-most-representative-the-median-station-per-state.-this-time-instead-of-looking-at-one-variable-at-a-time-look-at-the-euclidean-distance.-if-multiple-stations-show-in-the-median-select-the-one-located-at-the-lowest-latitude." class="level4">
+<h4 class="anchored" data-anchor-id="just-like-the-previous-question-you-are-asked-to-identify-what-is-the-most-representative-the-median-station-per-state.-this-time-instead-of-looking-at-one-variable-at-a-time-look-at-the-euclidean-distance.-if-multiple-stations-show-in-the-median-select-the-one-located-at-the-lowest-latitude.">Just like the previous question, you are asked to identify what is the most representative, the median, station per state. This time, instead of looking at one variable at a time, look at the euclidean distance. If multiple stations show in the median, select the one located at the lowest latitude.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>Met.Avgs.States <span class="ot">&lt;-</span> dat[, .(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">temp_median_state      =</span> <span class="fu">median</span>(temp, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">wind.sp_median_state   =</span> <span class="fu">median</span>(wind.sp, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">atm.press_median_state =</span> <span class="fu">median</span>(atm.press, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    by <span class="ot">=</span> STATE</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    ][<span class="fu">order</span>(STATE)]</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Merging with original dataset to get median for state and station onto original dataset</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>dat.states <span class="ot">&lt;-</span> <span class="fu">merge</span>(dat, Met.Avgs.States, <span class="at">by =</span> <span class="st">"STATE"</span>, <span class="at">all.x=</span><span class="cn">TRUE</span>)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>dat.state.stations <span class="ot">&lt;-</span> <span class="fu">merge</span>(dat.states, Met.Avgs.Stations, <span class="at">by =</span> <span class="st">"USAFID"</span>, <span class="at">all.x=</span><span class="cn">TRUE</span>)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Generate difference from station to state median</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>dat.state.stations<span class="sc">$</span>temp.diff <span class="ot">&lt;-</span> dat.state.stations<span class="sc">$</span>temp_median_station <span class="sc">-</span> dat.state.stations<span class="sc">$</span>temp_median_state</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dat.state.stations<span class="sc">$</span>temp.diff)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+-10.900  -1.000   0.000  -0.063   1.000  16.700    4408 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>dat.state.stations<span class="sc">$</span>wind.diff <span class="ot">&lt;-</span> dat.state.stations<span class="sc">$</span>wind.sp_median_station<span class="sc">-</span>dat.state.stations<span class="sc">$</span>wind.sp_median_state</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dat.state.stations<span class="sc">$</span>wind.diff)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+ -3.600  -0.600   0.000  -0.092   0.500   9.800   15319 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>dat.state.stations<span class="sc">$</span>atm.diff <span class="ot">&lt;-</span> dat.state.stations<span class="sc">$</span>atm.press_median_station<span class="sc">-</span>dat.state.stations<span class="sc">$</span>atm.press_median_state</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dat.state.stations<span class="sc">$</span>atm.diff)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+  -12.9    -0.4     0.0     0.0     0.4    37.8 1456896 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add up total differences from the median of each variable</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>dat.state.stations<span class="sc">$</span>total.diff <span class="ot">&lt;-</span> dat.state.stations<span class="sc">$</span>temp.diff <span class="sc">+</span> dat.state.stations<span class="sc">$</span>wind.diff <span class="sc">+</span> dat.state.stations<span class="sc">$</span>atm.diff</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dat.state.stations<span class="sc">$</span>total.diff)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+  -14.1    -0.8     0.4     0.4     1.5    35.8 1459264 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>median.station <span class="ot">&lt;-</span> <span class="fu">unique</span>(dat.state.stations[, <span class="fu">list</span>(USAFID, CTRY, STATE,total.diff,lon)])</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co">#square these to make everything positive</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>median.station<span class="sc">$</span>total.diff_sq <span class="ot">&lt;-</span> median.station<span class="sc">$</span>total.diff<span class="sc">*</span>median.station<span class="sc">$</span>total.diff</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>state.representatives <span class="ot">&lt;-</span> <span class="fu">setDT</span>(median.station)[ , .SD[<span class="fu">which.min</span>(total.diff_sq)], by <span class="ot">=</span> STATE]</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>state.representatives</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     STATE USAFID   CTRY    total.diff      lon total.diff_sq
+    &lt;char&gt;  &lt;int&gt; &lt;char&gt;         &lt;num&gt;    &lt;num&gt;         &lt;num&gt;
+ 1:     CA 725850     US  6.750156e-14 -122.115  4.556461e-27
+ 2:     TX 722618     US -4.440892e-16 -102.916  1.972152e-31
+ 3:     MI 726387     US -1.000000e-01  -85.583  1.000000e-02
+ 4:     SC 723120     US -3.000000e-01  -82.217  9.000000e-02
+ 5:     IL 725305     US  4.000000e-01  -88.246  1.600000e-01
+ 6:     MO 724345     US  8.881784e-14  -90.656  7.888609e-27
+ 7:     AR 720377     US  1.000000e-01  -91.176  1.000000e-02
+ 8:     OR 725895     US  2.000000e-01 -121.724  4.000000e-02
+ 9:     GA 722197     US -2.131628e-14  -84.567  4.543839e-28
+10:     MN 726555     US  3.000000e-01  -94.131  9.000000e-02
+11:     AL 722300     US  5.000000e-02  -86.782  2.500000e-03
+12:     IN 725335     US  0.000000e+00  -86.152  0.000000e+00
+13:     NC 723060     US  2.000000e-01  -78.783  4.000000e-02
+14:     VA 724019     US -3.000000e-01  -77.001  9.000000e-02
+15:     IA 725570     US  1.500000e-01  -96.383  2.250000e-02
+16:     PA 725434     US -5.000000e-02  -75.379  2.500000e-03
+17:     NE 725524     US -1.000000e-01  -98.948  1.000000e-02
+18:     ID 725867     US -2.000000e-01 -113.766  4.000000e-02
+19:     WI 726435     US  1.000000e-01  -91.488  1.000000e-02
+20:     WV 724120     US -2.264855e-14  -81.117  5.129568e-28
+21:     MD 724057     US  1.000000e-01  -76.170  1.000000e-02
+22:     AZ 722745     US  2.000000e-01 -110.883  4.000000e-02
+23:     OK 723545     US  5.000000e-02  -97.089  2.500000e-03
+24:     WY 725763     US -2.486900e-14 -104.158  6.184669e-28
+25:     LA 722488     US  2.131628e-14  -91.028  4.543839e-28
+26:     KY 724233     US  4.000000e-01  -84.903  1.600000e-01
+27:     FL 722213     US  5.000000e-02  -81.810  2.500000e-03
+28:     CO 724676     US  2.000000e-01 -106.870  4.000000e-02
+29:     OH 724200     US  0.000000e+00  -82.518  0.000000e+00
+30:     NJ 724095     US -4.000000e-01  -74.816  1.600000e-01
+31:     NM 723600     US -4.000000e-01 -103.150  1.600000e-01
+32:     KS 724585     US -4.440892e-16  -98.809  1.972152e-31
+33:     VT 726145     US  1.000000e-01  -72.562  1.000000e-02
+34:     MS 723320     US  6.972201e-14  -88.767  4.861158e-27
+35:     CT 725029     US  1.000000e-01  -73.135  1.000000e-02
+36:     NV 724885     US  6.750156e-14 -118.716  4.556461e-27
+37:     UT 725810     US -4.000000e-01 -114.031  1.600000e-01
+38:     SD 726625     US  0.000000e+00 -103.100  0.000000e+00
+39:     TN 723346     US  1.000000e-01  -88.917  1.000000e-02
+40:     NY 725036     US -2.220446e-15  -73.882  4.930381e-30
+41:     RI 725079     US  9.000000e-01  -71.283  8.100000e-01
+42:     MA 725064     US  0.000000e+00  -70.729  0.000000e+00
+43:     DE 724180     US -2.000000e-01  -75.606  4.000000e-02
+44:     NH 726116     US -5.000000e-01  -72.305  2.500000e-01
+45:     ME 726077     US -2.000000e-01  -68.367  4.000000e-02
+46:     MT 726797     US  4.000000e-01 -111.160  1.600000e-01
+     STATE USAFID   CTRY    total.diff      lon total.diff_sq</code></pre>
 </div>
 </div>
 </section>
