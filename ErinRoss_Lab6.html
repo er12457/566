@@ -1,0 +1,3132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Erin Ross">
+
+<title>ErinRoss_Lab6</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="ErinRoss_Lab6_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ErinRoss_Lab6_files/libs/quarto-html/quarto.js"></script>
+<script src="ErinRoss_Lab6_files/libs/quarto-html/popper.min.js"></script>
+<script src="ErinRoss_Lab6_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="ErinRoss_Lab6_files/libs/quarto-html/anchor.min.js"></script>
+<link href="ErinRoss_Lab6_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ErinRoss_Lab6_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="ErinRoss_Lab6_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="ErinRoss_Lab6_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="ErinRoss_Lab6_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">ErinRoss_Lab6</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Erin Ross </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.2     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.3     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>mt <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://raw.githubusercontent.com/USCbiostats/data-science-data/master/00_mtsamples/mtsamples.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="question-1-what-specialties-do-we-have" class="level2">
+<h2 class="anchored" data-anchor-id="question-1-what-specialties-do-we-have"><strong>Question 1: What specialties do we have?</strong></h2>
+<section id="we-can-use-count-from-dplyr-to-figure-out-how-many-different-catagories-do-we-have-are-these-catagories-related-overlapping-evenly-distributed" class="level4">
+<h4 class="anchored" data-anchor-id="we-can-use-count-from-dplyr-to-figure-out-how-many-different-catagories-do-we-have-are-these-catagories-related-overlapping-evenly-distributed">We can use <code>count()</code> from <code>dplyr</code> to figure out how many different catagories do we have? Are these catagories related? overlapping? evenly distributed?</h4>
+<p>There are 40 different “specialties” however some of them aren’t really specialties (office notes, discharge summary, etc). There are overlaps in the categories in terms of related specialties (general medicien and it’s sub specialties) but not a lot of overlap in the naming of the categories. There are many more notes for CV/pulm, GI, general medicine, neurology than there are for the surgical specialties.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mt <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(medical_specialty)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                medical_specialty    n
+1            Allergy / Immunology    7
+2                         Autopsy    8
+3                      Bariatrics   18
+4      Cardiovascular / Pulmonary  372
+5                    Chiropractic   14
+6      Consult - History and Phy.  516
+7      Cosmetic / Plastic Surgery   27
+8                       Dentistry   27
+9                     Dermatology   29
+10           Diets and Nutritions   10
+11              Discharge Summary  108
+12           ENT - Otolaryngology   98
+13         Emergency Room Reports   75
+14                  Endocrinology   19
+15               Gastroenterology  230
+16               General Medicine  259
+17          Hematology - Oncology   90
+18      Hospice - Palliative Care    6
+19         IME-QME-Work Comp etc.   16
+20       Lab Medicine - Pathology    8
+21                        Letters   23
+22                     Nephrology   81
+23                      Neurology  223
+24                   Neurosurgery   94
+25        Obstetrics / Gynecology  160
+26                   Office Notes   51
+27                  Ophthalmology   83
+28                     Orthopedic  355
+29                Pain Management   62
+30          Pediatrics - Neonatal   70
+31      Physical Medicine - Rehab   21
+32                       Podiatry   47
+33        Psychiatry / Psychology   53
+34                      Radiology  273
+35                   Rheumatology   10
+36  SOAP / Chart / Progress Notes  166
+37                 Sleep Medicine   20
+38              Speech - Language    9
+39                        Surgery 1103
+40                        Urology  158</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="question-2" class="level2">
+<h2 class="anchored" data-anchor-id="question-2"><strong>Question 2</strong></h2>
+<ul>
+<li><p>Tokenize the the words in the <code>transcription</code> column</p></li>
+<li><p>Count the number of times each token appears</p></li>
+<li><p>Visualize the top 20 most frequent words</p></li>
+</ul>
+<section id="explain-what-we-see-from-this-result.-does-it-makes-sense-what-insights-if-any-do-we-get" class="level4">
+<h4 class="anchored" data-anchor-id="explain-what-we-see-from-this-result.-does-it-makes-sense-what-insights-if-any-do-we-get">Explain what we see from this result. Does it makes sense? What insights (if any) do we get?</h4>
+<p>Most common words are common stop words (the, and, was) as well as words we would expect for a medical note (patient, right)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mt.token<span class="fl">.20</span> <span class="ot">&lt;-</span> mt <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(token, transcription) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(token, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">20</span>, n)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>mt.token<span class="fl">.20</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     token      n
+1      the 149888
+2      and  82779
+3      was  71765
+4       of  59205
+5       to  50632
+6        a  42810
+7     with  35815
+8       in  32807
+9       is  26378
+10 patient  22065
+11      no  17874
+12     she  17593
+13     for  17049
+14      he  15542
+15    were  15535
+16      on  14694
+17    this  13949
+18      at  13492
+19    then  12430
+20   right  11587</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="question-3" class="level2">
+<h2 class="anchored" data-anchor-id="question-3"><strong>Question 3</strong></h2>
+<ul>
+<li><p>Redo visualization but remove stopwords before</p></li>
+<li><p>Bonus points if you remove numbers as well</p></li>
+</ul>
+<section id="what-do-we-see-know-that-we-have-removed-stop-words-does-it-give-us-a-better-idea-of-what-the-text-is-about" class="level4">
+<h4 class="anchored" data-anchor-id="what-do-we-see-know-that-we-have-removed-stop-words-does-it-give-us-a-better-idea-of-what-the-text-is-about">What do we see know that we have removed stop words? Does it give us a better idea of what the text is about?</h4>
+<p>Patient is now at the top of our list which makes sense. Interstingly, we list “right” and now have “left” as the most common word… we would want to keep right for laterality of patient complaints. “Procedure” probably comes from the “procedure list” that is common in many note types. The most common complaint is “pain” which makes sense, and we often document “patient denies abdominal pain” so that would appear a lot. The “anesthesia” “skin” and “incision” probably are coming from op reports.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mttoken.<span class="fl">20.</span>nostops <span class="ot">&lt;-</span> mt <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(token, transcription) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"token"</span> <span class="ot">=</span> <span class="st">"word"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(token, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">20</span>, n)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>mttoken.<span class="fl">20.</span>nostops</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        token     n
+1     patient 22065
+2        left 11258
+3     history  9509
+4           2  8864
+5           1  8396
+6      normal  7526
+7   procedure  7463
+8           3  6093
+9        pain  5976
+10          4  5318
+11          0  4765
+12          5  4427
+13      noted  4348
+14       time  4287
+15         mg  4087
+16      blood  3956
+17  performed  3953
+18       skin  3798
+19 anesthesia  3707
+20   incision  3601</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="question-4" class="level1">
+<h1><strong>Question 4</strong></h1>
+<section id="repeat-question-2-but-this-time-tokenize-into-bi-grams.-how-does-the-result-change-if-you-look-at-tri-grams" class="level4">
+<h4 class="anchored" data-anchor-id="repeat-question-2-but-this-time-tokenize-into-bi-grams.-how-does-the-result-change-if-you-look-at-tri-grams"><strong>R</strong>epeat question 2, but this time tokenize into bi-grams. How does the result change if you look at tri-grams?</h4>
+<p>Most of our bigrams are related to the location (of chief complaint, or anatomy for an op report) or what the patient was doing before they had the chief complaint.</p>
+<p>Trigrams show more about op reports (all op reports start with “the patient was prepped and draped, a X blade was used to…). They also have a lot of the lanaguage that will be present in the HPI at the top of every note for inpatient notes:”patient is a XYO F/M… “,”the patient was in their usual state of health when X Y thing happened”, or “The patient was doing X activity when Y happened”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mttoken.bigram <span class="ot">&lt;-</span> mt <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_ngrams</span>(ngram, transcription, <span class="at">n =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(ngram, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">10</span>, n)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>mttoken.bigram</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         ngram     n
+1  the patient 20307
+2       of the 19062
+3       in the 12790
+4       to the 12374
+5     was then  6956
+6      and the  6350
+7  patient was  6293
+8    the right  5509
+9       on the  5241
+10    the left  4860</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mttoken.trigram <span class="ot">&lt;-</span> mt <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_ngrams</span>(ngram, transcription, <span class="at">n =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(ngram, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">10</span>, n)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>mttoken.trigram</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                ngram    n
+1     the patient was 6104
+2      the patient is 3075
+3          as well as 2243
+4         there is no 1678
+5  the operating room 1532
+6        patient is a 1491
+7  prepped and draped 1490
+8         was used to 1480
+9       and draped in 1372
+10       at this time 1333</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="question-5" class="level1">
+<h1><strong>Question 5</strong></h1>
+<section id="using-the-results-you-got-from-questions-4.-pick-a-word-and-count-the-words-that-appears-after-and-before-it." class="level4">
+<h4 class="anchored" data-anchor-id="using-the-results-you-got-from-questions-4.-pick-a-word-and-count-the-words-that-appears-after-and-before-it.">Using the results you got from questions 4. Pick a word and count the words that appears after and before it.</h4>
+<p>There are 2491 words that appear before “to” in the trancriptions. Most common words are less interesting, but we have some nice words “auscultation”, “proceed”, “recovery”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mttoken.bigram.to <span class="ot">&lt;-</span> mt <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_ngrams</span>(ngram, transcription, <span class="at">n =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(ngram, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"word1"</span>, <span class="st">"word2"</span>), <span class="at">sep =</span> <span class="st">" "</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(word1, word2) <span class="sc">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word1 <span class="sc">==</span> <span class="st">"to"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word2, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>mttoken.bigram.to</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   word2     n
+1                    the 12374
+2                     be  4345
+3                   have  1402
+4                      a   688
+5                    her   615
+6                    his   526
+7           auscultation   494
+8                proceed   465
+9                   make   437
+10                 light   405
+11                   see   381
+12              recovery   373
+13                follow   333
+14                   get   333
+15                    do   313
+16                remove   302
+17                  this   268
+18             pathology   259
+19               perform   245
+20                    go   237
+21                  take   232
+22              continue   223
+23                 avoid   214
+24                 close   204
+25                  help   199
+26                 allow   191
+27                return   170
+28              evaluate   168
+29                   use   164
+30             palpation   160
+31                     3   157
+32                     2   153
+33                obtain   153
+34                    an   150
+35                    dr   149
+36                  abcd   147
+37                 place   143
+38              identify   140
+39                    me   137
+40               undergo   136
+41                person   134
+42               provide   133
+43                   two   132
+44                ensure   130
+45              moderate   127
+46               prevent   127
+47                  call   126
+48               improve   122
+49                create   120
+50                  home   118
+51                  rule   118
+52                expose   116
+53                  work   116
+54                 three   113
+55                assess   112
+56             admission   111
+57                  that   110
+58                  walk   110
+59                  keep   108
+60                    10   107
+61                     4   106
+62                   him   106
+63              complete   105
+64                severe   105
+65                     5    99
+66                  pacu    99
+67                    20    96
+68               dissect    92
+69           approximate    91
+70                  give    91
+71                   250    90
+72              maintain    90
+73                  side    88
+74               protect    86
+75               confirm    85
+76                  date    84
+77                     6    82
+78                   its    82
+79                 right    81
+80          presentation    80
+81               contact    76
+82                  four    74
+83                     1    73
+84              increase    73
+85                   all    72
+86                  pass    72
+87             cannulate    71
+88                normal    71
+89                    40    70
+90               further    70
+91                  left    69
+92               control    68
+93             determine    68
+94                  open    68
+95                 check    67
+96              preserve    67
+97                reduce    67
+98                resect    67
+99               surgery    67
+100                bring    66
+101                 come    65
+102             decrease    65
+103                 both    64
+104               clinic    64
+105                  eat    64
+106              include    64
+107                sleep    64
+108            discharge    63
+109             tolerate    62
+110                  any    61
+111                treat    61
+112                   us    61
+113                start    60
+114                   15    59
+115                    7    59
+116              achieve    59
+117               incise    59
+118                 five    58
+119                  try    58
+120             hospital    57
+121              medical    56
+122              discuss    55
+123                  our    55
+124                 uihc    54
+125             ambulate    53
+126              monitor    53
+127           percussion    53
+128                 find    51
+129                 hold    51
+130                 some    51
+131                  not    50
+132             separate    50
+133               assist    49
+134                 move    49
+135                   12    48
+136                   30    48
+137                    8    48
+138             bleeding    48
+139                cover    48
+140              elevate    48
+141                  one    48
+142                   it    47
+143                   my    47
+144            operating    47
+145                   re    46
+146                enter    45
+147              relieve    45
+148           children's    44
+149              retract    44
+150            visualize    44
+151                  cut    43
+152         exsanguinate    43
+153                  six    43
+154                 time    43
+155                  and    42
+156                 each    42
+157                   s1    42
+158                touch    42
+159                   25    41
+160                   50    41
+161                   90    41
+162           penicillin    41
+163               resume    41
+164               review    41
+165              closure    40
+166            emergency    40
+167           experience    40
+168                leave    40
+169                  put    40
+170                about    39
+171                 feel    39
+172                 stop    39
+173                   or    38
+174                    9    37
+175             consider    37
+176                grasp    37
+177          medications    37
+178             mobilize    37
+179                 nose    37
+180                 pain    37
+181          participate    37
+182             proximal    37
+183                   60    36
+184        approximately    36
+185                begin    36
+186             exercise    36
+187                stand    36
+188                clear    35
+189               distal    35
+190                  mom    35
+191                 stay    35
+192          anesthetize    34
+193              chronic    34
+194                cross    34
+195       postanesthesia    34
+196        reapproximate    34
+197                  ask    33
+198               deepen    33
+199               engage    33
+200                 look    33
+201               repeat    33
+202                 show    33
+203                their    33
+204                 them    33
+205                these    33
+206                  100    32
+207          accommodate    32
+208               answer    32
+209                  bed    32
+210                  fit    32
+211                   no    32
+212           anesthesia    31
+213              develop    31
+214                drill    31
+215                  xyz    31
+216                above    30
+217              correct    30
+218             irrigate    30
+219                 just    30
+220                labor    30
+221              lateral    30
+222           performing    30
+223                 pull    30
+224                 what    30
+225                   11    29
+226                 fill    29
+227                 free    29
+228             physical    29
+229               pursue    29
+230               remain    29
+231               verify    29
+232                being    28
+233             complain    28
+234         conservative    28
+235               smooth    28
+236                watch    28
+237                   70    27
+238                clean    27
+239             followup    27
+240               medial    27
+241         preoperative    27
+242              recheck    27
+243              respond    27
+244                 seek    27
+245                smoke    27
+246             transect    27
+247                   80    26
+248              address    26
+249               dilate    26
+250                 disc    26
+251               excise    26
+252              isolate    26
+253               length    26
+254                 lose    26
+255              release    26
+256                  sit    26
+257                speak    26
+258                   14    25
+259               assure    25
+260              closing    25
+261                 lack    25
+262                 mild    25
+263                  200    24
+264                  add    24
+265                  aid    24
+266            carefully    24
+267                carry    24
+268            cauterize    24
+269               having    24
+270              palpate    24
+271               repair    24
+272           understand    24
+273              whether    24
+274                admit    23
+275              attempt    23
+276               change    23
+277                chart    23
+278                drain    23
+279                drink    23
+280           inspection    23
+281             localize    23
+282             progress    23
+283             weakness    23
+284                   45    22
+285               better    22
+286           facilitate    22
+287                 fall    22
+288           infiltrate    22
+289                 mark    22
+290                   pp    22
+291              receive    22
+292               report    22
+293                 care    21
+294                cause    21
+295                eight    21
+296            establish    21
+297               extend    21
+298                  ice    21
+299                  let    21
+300                lower    21
+301                  mid    21
+302                reach    21
+303                 shin    21
+304             surgical    21
+305              urinate    21
+306                  325    20
+307              advance    20
+308        confrontation    20
+309               finger    20
+310             indicate    20
+311               insert    20
+312               manage    20
+313            represent    20
+314                 send    20
+315                 tell    20
+316            treatment    20
+317                   16    19
+318            bilateral    19
+319           completely    19
+320              examine    19
+321                flush    19
+322              hygiene    19
+323                 lift    19
+324              observe    19
+325              prepare    19
+326             previous    19
+327                 read    19
+328              suction    19
+329             transfer    19
+330              alcohol    18
+331                 back    18
+332                 bone    18
+333              cardiac    18
+334                 heal    18
+335          incorporate    18
+336               inject    18
+337                 name    18
+338              plantar    18
+339                 quit    18
+340              suggest    18
+341                 thin    18
+342                apply    17
+343             baseline    17
+344                   c6    17
+345          communicate    17
+346                drive    17
+347                  end    17
+348                 full    17
+349            infection    17
+350               locate    17
+351                 meet    17
+352             minimize    17
+353             multiple    17
+354                nerve    17
+355              outline    17
+356             pinprick    17
+357              placing    17
+358               school    17
+359                 wear    17
+360                   18    16
+361                   24    16
+362                   75    16
+363               access    16
+364             anterior    16
+365              deliver    16
+366          discontinue    16
+367               elicit    16
+368              enlarge    16
+369                 gain    16
+370                 hurt    16
+371              inspect    16
+372                  lad    16
+373              measure    16
+374              operate    16
+375                  say    16
+376              support    16
+377                 talk    16
+378                 turn    16
+379               verbal    16
+380                 wean    16
+381               accept    15
+382                empty    15
+383                  low    15
+384            operative    15
+385           outpatient    15
+386              patient    15
+387            posterior    15
+388                 seal    15
+389          surrounding    15
+390                  ten    15
+391                  1.5    14
+392                  120    14
+393                 also    14
+394             aspirate    14
+395               become    14
+396                blood    14
+397                 drop    14
+398                 form    14
+399                 high    14
+400               injure    14
+401             interact    14
+402                limit    14
+403            medicines    14
+404                 most    14
+405                 oral    14
+406            placement    14
+407                 poor    14
+408              produce    14
+409               secure    14
+410            situation    14
+411                 size    14
+412             starting    14
+413               suture    14
+414              swallow    14
+415                 wait    14
+416                  300    13
+417                  abc    13
+418               coming    13
+419           completion    13
+420          decorticate    13
+421                 deep    13
+422            extensive    13
+423                 good    13
+424              gravity    13
+425              inflate    13
+426             internal    13
+427                learn    13
+428               lumbar    13
+429           medication    13
+430               nerves    13
+431                other    13
+432                 over    13
+433                  pad    13
+434            pulmonary    13
+435             restrict    13
+436               reveal    13
+437                   st    13
+438                 tack    13
+439                upper    13
+440                  130    12
+441                   81    12
+442                acute    12
+443               arouse    12
+444              bluntly    12
+445              codeine    12
+446                count    12
+447               debulk    12
+448               define    12
+449             delivery    12
+450                 draw    12
+451            eliminate    12
+452               escape    12
+453              express    12
+454              general    12
+455                going    12
+456                guide    12
+457                  how    12
+458         hypertension    12
+459            inflation    12
+460        intravascular    12
+461              involve    12
+462                large    12
+463                 long    12
+464         microbiology    12
+465           moderately    12
+466                 note    12
+467              noxious    12
+468              nursing    12
+469           proceeding    12
+470               recent    12
+471              reflect    12
+472                  run    12
+473             schedule    12
+474          significant    12
+475                sinus    12
+476               switch    12
+477            telemetry    12
+478                  180    11
+479           adequately    11
+480              another    11
+481           aspiration    11
+482              bactrim    11
+483                clamp    11
+484          concentrate    11
+485              consult    11
+486             creation    11
+487                  day    11
+488           decompress    11
+489               divide    11
+490              exclude    11
+491                 feed    11
+492                final    11
+493                fully    11
+494             inferior    11
+495           insufflate    11
+496               itself    11
+497                   iv    11
+498                 live    11
+499              occlude    11
+500                 play    11
+501            prescribe    11
+502               recall    11
+503              removal    11
+504              resolve    11
+505              reverse    11
+506                seven    11
+507            stabilize    11
+508               stress    11
+509         subcutaneous    11
+510                think    11
+511                 void    11
+512                   06    10
+513                   19    10
+514                   48    10
+515           activities    10
+516            alleviate    10
+517           appreciate    10
+518             asbestos    10
+519                break    10
+520                   by    10
+521           comprehend    10
+522                 deal    10
+523               detect    10
+524             diabetes    10
+525               digits    10
+526               direct    10
+527               doubly    10
+528            encourage    10
+529              enhance    10
+530             evacuate    10
+531                  fix    10
+532               fixate    10
+533             function    10
+534              houston    10
+535                  lie    10
+536               ligate    10
+537               medium    10
+538          objectively    10
+539                order    10
+540             position    10
+541                 push    10
+542              replace    10
+543              require    10
+544               rotate    10
+545               safely    10
+546                 sign    10
+547              smoking    10
+548                spare    10
+549              sustain    10
+550            traumatic    10
+551                twice    10
+552                where    10
+553                   95     9
+554                 bear     9
+555              capture     9
+556               caudad     9
+557           congestive     9
+558            delineate     9
+559          demonstrate     9
+560           exertional     9
+561                 exit     9
+562              explain     9
+563                   in     9
+564               induce     9
+565                 know     9
+566           laboratory     9
+567                   lt     9
+568                 main     9
+569           manipulate     9
+570             maximize     9
+571               nipple     9
+572                occur     9
+573            patient's     9
+574             platysma     9
+575             probably     9
+576            questions     9
+577               really     9
+578             remember     9
+579                 rise     9
+580                 risk     9
+581                 room     9
+582               thrive     9
+583                track     9
+584                 very     9
+585                write     9
+586                 your     9
+587                    0     8
+588                  103     8
+589                   22     8
+590                   32     8
+591                   55     8
+592              abdomen     8
+593              aspirin     8
+594               assume     8
+595                   at     8
+596            beginning     8
+597               cancer     8
+598               center     8
+599              college     8
+600              convert     8
+601               decide     8
+602            decreased     8
+603         degenerative     8
+604             describe     8
+605             elevated     8
+606               finish     8
+607                 flex     8
+608                 flow     8
+609              forming     8
+610               gently     8
+611              hearing     8
+612      hospitalization     8
+613                image     8
+614             incision     8
+615               injury     8
+616            insertion     8
+617                level     8
+618                lupus     8
+619              maximum     8
+620                meals     8
+621             navigate     8
+622                 need     8
+623              newborn     8
+624        periprostatic     8
+625         reconstitute     8
+626              recover     8
+627                 self     8
+628                  set     8
+629                shape     8
+630               shower     8
+631               slowly     8
+632                 such     8
+633                sulfa     8
+634               supine     8
+635                swell     8
+636               taking     8
+637                taper     8
+638                texas     8
+639                tying     8
+640            undermine     8
+641                voice     8
+642                 wake     8
+643                water     8
+644               within     8
+645                  102     7
+646                  105     7
+647                  2.5     7
+648                  3.5     7
+649                  act     7
+650             actively     7
+651               adjust     7
+652       administration     7
+653               affect     7
+654               attend     7
+655              breathe     7
+656                 bulb     7
+657            coagulate     7
+658             deviated     7
+659             document     7
+660               either     7
+661                 even     7
+662                 face     7
+663              failure     7
+664                first     7
+665                 heel     7
+666              history     7
+667            hopefully     7
+668                  hot     7
+669                  icu     7
+670          identifying     7
+671            increased     7
+672           initiation     7
+673               insure     7
+674          macrodantin     7
+675               mexico     7
+676               mother     7
+677                 near     7
+678                 only     7
+679            oxycodone     7
+680                 pack     7
+681            pediatric     7
+682                 post     7
+683                probe     7
+684                raise     7
+685                rapid     7
+686            recommend     7
+687            reinforce     7
+688                 roll     7
+689                 same     7
+690               seeing     7
+691                 span     7
+692                stage     7
+693                still     7
+694           straighten     7
+695                sweep     7
+696                 test     7
+697                   tt     7
+698                wound     7
+699                   08     6
+700                  150     6
+701                  400     6
+702                  5.5     6
+703                  900     6
+704             actually     6
+705             adhesive     6
+706            aggravate     6
+707                  ant     6
+708               aortic     6
+709       aortopulmonary     6
+710          appropriate     6
+711                   as     6
+712              augment     6
+713           barometric     6
+714                began     6
+715             bellaire     6
+716             benadryl     6
+717               benign     6
+718                 best     6
+719                   c4     6
+720                   c7     6
+721               cancel     6
+722                cecum     6
+723             cephalad     6
+724         chemotherapy     6
+725                climb     6
+726              conform     6
+727              connect     6
+728           constitute     6
+729           correspond     6
+730             coumadin     6
+731           counseling     6
+732                court     6
+733              current     6
+734              debride     6
+735           descending     6
+736           desufflate     6
+737                doing     6
+738               donate     6
+739                  dry     6
+740             endplate     6
+741               expand     6
+742              explore     6
+743                facet     6
+744              fashion     6
+745              fatigue     6
+746         fibromyalgia     6
+747               figure     6
+748              flexion     6
+749            gastritis     6
+750                glenn     6
+751                   he     6
+752           hemostasis     6
+753                    i     6
+754                  iii     6
+755            induction     6
+756             initiate     6
+757                 iron     6
+758                  lab     6
+759           lateralize     6
+760                 lean     6
+761                 mean     6
+762              midline     6
+763               notify     6
+764                   om     6
+765             optimize     6
+766           osteophyte     6
+767                  p.o     6
+768            penetrate     6
+769         percutaneous     6
+770                 pick     6
+771                 picu     6
+772             possibly     6
+773          posteriorly     6
+774       preoperatively     6
+775             prepping     6
+776          reconstruct     6
+777               reflux     6
+778              regular     6
+779            reiterate     6
+780                renal     6
+781                 rest     6
+782              restart     6
+783              roughen     6
+784              rupture     6
+785                 save     6
+786           scheduling     6
+787               second     6
+788               sepsis     6
+789                 skin     6
+790                 soft     6
+791               solids     6
+792            southwest     6
+793               spinal     6
+794              splenic     6
+795                state     6
+796             stenosis     6
+797                strip     6
+798                study     6
+799            summarize     6
+800             systemic     6
+801                teeth     6
+802          temporarily     6
+803               tether     6
+804                  tie     6
+805                  top     6
+806              totally     6
+807           underlying     6
+808              unusual     6
+809              utilize     6
+810                   v6     6
+811              waiting     6
+812                 when     6
+813               worsen     6
+814                  xii     6
+815                  xrt     6
+816                   13     5
+817                  230     5
+818                  240     5
+819                 60mg     5
+820                   65     5
+821                   84     5
+822                   85     5
+823                abort     5
+824           accomplish     5
+825                align     5
+826        approximating     5
+827                areas     5
+828               biopsy     5
+829             colorado     5
+830        complications     5
+831             convince     5
+832              deflate     5
+833           discomfort     5
+834               dorsal     5
+835                  dou     5
+836                 drug     5
+837            dysphagia     5
+838                every     5
+839             exertion     5
+840              finally     5
+841     gastroenterology     5
+842             grafting     5
+843               happen     5
+844          healthsouth     5
+845                heavy     5
+846                  hit     5
+847            interpret     5
+848                knees     5
+849                   l1     5
+850                   l4     5
+851                  lap     5
+852                 last     5
+853                latex     5
+854                  leg     5
+855             lengthen     5
+856               likely     5
+857               listen     5
+858                liver     5
+859                match     5
+860               mildly     5
+861               narrow     5
+862                  now     5
+863              obesity     5
+864          obstruction     5
+865                  old     5
+866              persist     5
+867            pneumonia     5
+868             postpone     5
+869                 prep     5
+870                prior     5
+871            procedure     5
+872             purulent     5
+873                range     5
+874           recuperate     5
+875                refer     5
+876                rehab     5
+877               scrape     5
+878             sedation     5
+879                serve     5
+880                signs     5
+881                sinai     5
+882                 slow     5
+883                small     5
+884             smoothen     5
+885                spell     5
+886                stent     5
+887             superior     5
+888             takedown     5
+889               throat     5
+890                throw     5
+891              tighten     5
+892              titrate     5
+893                  toe     5
+894                total     5
+895         tuberculosis     5
+896              urinary     5
+897                visit     5
+898                vomit     5
+899                 wash     5
+900                  you     5
+901                  0.5     4
+902                   07     4
+903                 10.5     4
+904                  111     4
+905                  147     4
+906                  155     4
+907                 1925     4
+908                  2.0     4
+909                  290     4
+910                  4.2     4
+911                   72     4
+912                  7mm     4
+913                   91     4
+914                  9mm     4
+915                _____     4
+916               ablate     4
+917               adhere     4
+918            admitting     4
+919                again     4
+920                  age     4
+921              amalgam     4
+922             amputate     4
+923             anatomic     4
+924                angio     4
+925             approach     4
+926                arise     4
+927               arrest     4
+928              arrival     4
+929               atrial     4
+930               attain     4
+931             awaiting     4
+932               awaken     4
+933                b.i.d     4
+934              benefit     4
+935             benefits     4
+936                 beta     4
+937               bisect     4
+938                bowel     4
+939             breakout     4
+940               breast     4
+941              buildup     4
+942                  but     4
+943            calibrate     4
+944                 calm     4
+945              carotid     4
+946                catch     4
+947              certain     4
+948         characterize     4
+949                chest     4
+950               choose     4
+951              cleanse     4
+952          clostridium     4
+953                  co2     4
+954            community     4
+955           completing     4
+956             concerns     4
+957              content     4
+958            continued     4
+959                conus     4
+960         conventional     4
+961                 cool     4
+962             cooper's     4
+963            cooperate     4
+964             coronary     4
+965               cosopt     4
+966              cutting     4
+967                death     4
+968          dehydration     4
+969             diabetic     4
+970            diagnosis     4
+971             dialysis     4
+972              dietary     4
+973                  dvt     4
+974                 ease     4
+975               effect     4
+976            elaborate     4
+977             enlarged     4
+978                   er     4
+979            eradicate     4
+980             erlanger     4
+981         establishing     4
+982           evaluation     4
+983                evert     4
+984                 exam     4
+985            excessive     4
+986            extension     4
+987                  eye     4
+988                 fade     4
+989             february     4
+990                 fine     4
+991                 fire     4
+992                floor     4
+993                foley     4
+994               freely     4
+995               garden     4
+996              gastric     4
+997                 grab     4
+998          granulation     4
+999                green     4
+1000              haldol     4
+1001                half     4
+1002             hepatic     4
+1003             himself     4
+1004                 hiv     4
+1005         hospitalist     4
+1006        hydrodissect     4
+1007     hyperthyroidism     4
+1008      hyperventilate     4
+1009           imbricate     4
+1010        implantation     4
+1011           inability     4
+1012          inferiorly     4
+1013             inhaled     4
+1014           inpatient     4
+1015            intubate     4
+1016              iodine     4
+1017                iowa     4
+1018            ischemic     4
+1019              israel     4
+1020                jail     4
+1021              keflex     4
+1022                   l     4
+1023           laryngeal     4
+1024           laterally     4
+1025            ligating     4
+1026              loosen     4
+1027              lortab     4
+1028                lung     4
+1029              luxate     4
+1030                lyse     4
+1031              making     4
+1032        manipulation     4
+1033            markedly     4
+1034           medialize     4
+1035              mental     4
+1036         metaphyseal     4
+1037              misuse     4
+1038               month     4
+1039                more     4
+1040            movement     4
+1041              muscle     4
+1042            necrotic     4
+1043           neurology     4
+1044             neutral     4
+1045         neutropenia     4
+1046                nick     4
+1047       noncompliance     4
+1048        nonoperative     4
+1049         observation     4
+1050             october     4
+1051               offer     4
+1052              orient     4
+1053              others     4
+1054                past     4
+1055           patient’s     4
+1056                 pay     4
+1057         perforation     4
+1058          physicians     4
+1059                 pin     4
+1060               pleur     4
+1061               point     4
+1062          polycystic     4
+1063              poorly     4
+1064                 pop     4
+1065            portland     4
+1066       postoperative     4
+1067          postpartum     4
+1068                 pre     4
+1069          prednisone     4
+1070         prematurity     4
+1071             probing     4
+1072             promote     4
+1073            prostate     4
+1074              public     4
+1075            puncture     4
+1076            question     4
+1077           radiation     4
+1078           radiology     4
+1079               react     4
+1080                ream     4
+1081           recontour     4
+1082            recreate     4
+1083           reduction     4
+1084            reexpand     4
+1085          refractory     4
+1086             refrain     4
+1087            regulate     4
+1088      rehabilitation     4
+1089          reposition     4
+1090          reschedule     4
+1091         respiratory     4
+1092             resting     4
+1093             restore     4
+1094              retain     4
+1095           returning     4
+1096               reuse     4
+1097                 san     4
+1098            scotland     4
+1099              screen     4
+1100              sedate     4
+1101         selectively     4
+1102              septal     4
+1103        sequentially     4
+1104              settle     4
+1105             several     4
+1106               share     4
+1107               short     4
+1108               shunt     4
+1109                 shy     4
+1110       skateboarding     4
+1111              slight     4
+1112       spontaneously     4
+1113            standard     4
+1114            standing     4
+1115           stimulate     4
+1116              stroke     4
+1117              sublux     4
+1118             subside     4
+1119               swing     4
+1120            symptoms     4
+1121               t.i.d     4
+1122            tekturna     4
+1123              tendon     4
+1124           terminate     4
+1125               thank     4
+1126                then     4
+1127          thoroughly     4
+1128              thread     4
+1129              threat     4
+1130              thymus     4
+1131                tire     4
+1132               today     4
+1133               tooth     4
+1134      transbronchial     4
+1135          transplant     4
+1136              trauma     4
+1137            traverse     4
+1138             trigone     4
+1139          ulcerative     4
+1140              update     4
+1141           vallecula     4
+1142          vancomycin     4
+1143           ventilate     4
+1144           vibration     4
+1145             vicodin     4
+1146                view     4
+1147            visceral     4
+1148                  vp     4
+1149             warrant     4
+1150               which     4
+1151                 why     4
+1152            withdraw     4
+1153               worry     4
+1154                wrap     4
+1155                   x     4
+1156              yellow     4
+1157                zero     4
+1158                 0.8     3
+1159                 1.6     3
+1160               100.2     3
+1161                 104     3
+1162                 106     3
+1163             107,000     3
+1164              12,000     3
+1165                 121     3
+1166                16.6     3
+1167                 177     3
+1168                 189     3
+1169               189.5     3
+1170                 196     3
+1171                1996     3
+1172                2036     3
+1173                24.7     3
+1174                25.6     3
+1175                26.9     3
+1176                  35     3
+1177                  44     3
+1178                 50s     3
+1179                  51     3
+1180                  54     3
+1181                  56     3
+1182                  66     3
+1183                  69     3
+1184                  77     3
+1185                  93     3
+1186         ___________     3
+1187            adequate     3
+1188          administer     3
+1189               advil     3
+1190            affected     3
+1191              afford     3
+1192          aggressive     3
+1193             allergy     3
+1194              almost     3
+1195           alternate     3
+1196              anchor     3
+1197                anna     3
+1198            appetite     3
+1199              around     3
+1200            artifact     3
+1201           ascertain     3
+1202          assistance     3
+1203          attempting     3
+1204           augmentin     3
+1205          auscultate     3
+1206               awake     3
+1207                baby     3
+1208            beaumont     3
+1209                bike     3
+1210                 ble     3
+1211            boarding     3
+1212                boat     3
+1213                body     3
+1214          borderline     3
+1215               build     3
+1216              bypass     3
+1217                  c2     3
+1218        carbohydrate     3
+1219         catheterize     3
+1220               cease     3
+1221         ceftazidime     3
+1222       ciprofloxacin     3
+1223           cleansing     3
+1224              closed     3
+1225             cocaine     3
+1226       communication     3
+1227           complaint     3
+1228          complaints     3
+1229            compress     3
+1230             concern     3
+1231           confusion     3
+1232          congestion     3
+1233          contracted     3
+1234            converse     3
+1235             cooking     3
+1236            cortical     3
+1237               cough     3
+1238                cpap     3
+1239               crawl     3
+1240               creat     3
+1241                 cry     3
+1242             curtail     3
+1243                 dad     3
+1244               dad's     3
+1245                deny     3
+1246          department     3
+1247              detach     3
+1248                 die     3
+1249           disabling     3
+1250             disrupt     3
+1251          distribute     3
+1252                dose     3
+1253              double     3
+1254                 eeg     3
+1255           endocrine     3
+1256           endoscope     3
+1257              enroll     3
+1258            entering     3
+1259            entirely     3
+1260             evening     3
+1261              father     3
+1262             fifteen     3
+1263           fluctuate     3
+1264               focus     3
+1265             freeing     3
+1266              frozen     3
+1267                gage     3
+1268         gastrostomy     3
+1269            generate     3
+1270              geneva     3
+1271       genitourinary     3
+1272           gradually     3
+1273                gram     3
+1274       granulomatous     3
+1275              groins     3
+1276            grooming     3
+1277              groups     3
+1278              handle     3
+1279                harm     3
+1280             healing     3
+1281            herniate     3
+1282             herself     3
+1283                hips     3
+1284          huntington     3
+1285         hypotension     3
+1286          immobilize     3
+1287            improved     3
+1288              imuran     3
+1289         independent     3
+1290       independently     3
+1291          individual     3
+1292              indoor     3
+1293              ingest     3
+1294            inguinal     3
+1295         instability     3
+1296           intensive     3
+1297           intersect     3
+1298             intimal     3
+1299                june     3
+1300             keeping     3
+1301               label     3
+1302              latter     3
+1303                 lbp     3
+1304                lead     3
+1305             limited     3
+1306             looking     3
+1307                loop     3
+1308            majority     3
+1309               march     3
+1310            medially     3
+1311           methadone     3
+1312               minor     3
+1313          mobilizing     3
+1314              modify     3
+1315               motor     3
+1316                  mr     3
+1317                 mrs     3
+1318              mucous     3
+1319                neck     3
+1320       neurovascular     3
+1321                 nod     3
+1322              notice     3
+1323                 off     3
+1324              oppose     3
+1325        oversedation     3
+1326          pediatrics     3
+1327          peritoneal     3
+1328             pillows     3
+1329                plan     3
+1330             plateau     3
+1331           preparing     3
+1332           pressures     3
+1333             primary     3
+1334            problems     3
+1335             process     3
+1336            properly     3
+1337            protrude     3
+1338             pulsate     3
+1339               q.i.d     3
+1340             recline     3
+1341           recognize     3
+1342        recommending     3
+1343          recovering     3
+1344        recreational     3
+1345            reducing     3
+1346         reestablish     3
+1347              reflex     3
+1348         regurgitate     3
+1349           reimburse     3
+1350            reinsert     3
+1351            reported     3
+1352           resecting     3
+1353           reservoir     3
+1354              reside     3
+1355              resign     3
+1356               retry     3
+1357            ruptured     3
+1358                  s2     3
+1359              safety     3
+1360            scarring     3
+1361           screening     3
+1362               screw     3
+1363              season     3
+1364             seizure     3
+1365                sell     3
+1366             sensory     3
+1367            severely     3
+1368               shoot     3
+1369             shorten     3
+1370           shortness     3
+1371              silica     3
+1372            slightly     3
+1373               sneak     3
+1374             snoring     3
+1375           socialize     3
+1376               spasm     3
+1377           sphincter     3
+1378               spike     3
+1379              sports     3
+1380             sterile     3
+1381           stimulant     3
+1382              strike     3
+1383                 sun     3
+1384          supplement     3
+1385                 t10     3
+1386                taho     3
+1387             temodar     3
+1388         temperature     3
+1389            terminal     3
+1390            thinking     3
+1391               those     3
+1392          tightening     3
+1393             today's     3
+1394           tolerable     3
+1395             trachea     3
+1396         transecting     3
+1397         triangulate     3
+1398         uncertainty     3
+1399       uncovertebral     3
+1400               under     3
+1401                 upj     3
+1402                 uti     3
+1403          vallecular     3
+1404             varices     3
+1405              verity     3
+1406                warn     3
+1407                weak     3
+1408              weight     3
+1409                well     3
+1410          whitnall's     3
+1411                 who     3
+1412              widely     3
+1413              yearly     3
+1414                yell     3
+1415                0.04     2
+1416                 0.6     2
+1417               1,200     2
+1418                1.64     2
+1419                 1.7     2
+1420             100,000     2
+1421                1000     2
+1422                100s     2
+1423                 101     2
+1424               101.2     2
+1425               101.3     2
+1426               101.6     2
+1427               101.8     2
+1428                 107     2
+1429                 108     2
+1430                11.5     2
+1431                 110     2
+1432                1100     2
+1433                12.5     2
+1434                12.9     2
+1435                120s     2
+1436                 126     2
+1437                13.5     2
+1438                 135     2
+1439                 138     2
+1440                 139     2
+1441                 140     2
+1442             140mmhg     2
+1443                 142     2
+1444                 145     2
+1445                 148     2
+1446                15.5     2
+1447                 152     2
+1448                 160     2
+1449                 169     2
+1450                  17     2
+1451                17.5     2
+1452                 170     2
+1453                 178     2
+1454                 187     2
+1455                 190     2
+1456                1994     2
+1457                 2.1     2
+1458                20.6     2
+1459                2000     2
+1460                2002     2
+1461                2003     2
+1462                  21     2
+1463                 210     2
+1464                 215     2
+1465                22.5     2
+1466                  23     2
+1467                24th     2
+1468                  26     2
+1469                  27     2
+1470                  28     2
+1471                 3.0     2
+1472                 3.3     2
+1473               3.5cm     2
+1474                30mg     2
+1475                  34     2
+1476                 350     2
+1477                  36     2
+1478                 3cm     2
+1479                 4.3     2
+1480                40.0     2
+1481                4140     2
+1482                  42     2
+1483                  43     2
+1484                 5.2     2
+1485                5.60     2
+1486                 5.8     2
+1487                 510     2
+1488               57bpm     2
+1489                 6.1     2
+1490                 6.5     2
+1491                 600     2
+1492                  64     2
+1493             700,000     2
+1494                  71     2
+1495                7500     2
+1496                  78     2
+1497                  79     2
+1498                 8.1     2
+1499                 849     2
+1500                  86     2
+1501                  88     2
+1502                  89     2
+1503                 8mm     2
+1504                 9.5     2
+1505           90degrees     2
+1506                  92     2
+1507                  94     2
+1508                  99     2
+1509                99mg     2
+1510                 9th     2
+1511              ______     2
+1512             _______     2
+1513                  a4     2
+1514                  ab     2
+1515              abcd's     2
+1516           abdominal     2
+1517              abduct     2
+1518                 abg     2
+1519            abnormal     2
+1520              absorb     2
+1521             abstain     2
+1522                abut     2
+1523          acceptable     2
+1524           accepting     2
+1525            accident     2
+1526       accommodation     2
+1527           accompany     2
+1528             account     2
+1529          accounting     2
+1530            achilles     2
+1531          additional     2
+1532           adduction     2
+1533          adenopathy     2
+1534           adenosine     2
+1535            adherent     2
+1536           adhesions     2
+1537            adjuvant     2
+1538             adverse     2
+1539           aesthetic     2
+1540               after     2
+1541               agree     2
+1542            akinesis     2
+1543          alcoholics     2
+1544           allergies     2
+1545             allowed     2
+1546           alzheimer     2
+1547              amount     2
+1548          ampicillin     2
+1549             amplify     2
+1550          amputation     2
+1551              anemia     2
+1552            anorexia     2
+1553              anoxic     2
+1554          anteflexed     2
+1555          anteriorly     2
+1556        anteromedial     2
+1557                anti     2
+1558             anxiety     2
+1559            anywhere     2
+1560         application     2
+1561               arava     2
+1562             aricept     2
+1563        arterialized     2
+1564                 asa     2
+1565           ascending     2
+1566               asses     2
+1567              assign     2
+1568            assisted     2
+1569     atherosclerosis     2
+1570              attach     2
+1571            auditory     2
+1572                  av     2
+1573               axial     2
+1574        bacteriology     2
+1575             balance     2
+1576             balloon     2
+1577             baptize     2
+1578                base     2
+1579               basic     2
+1580                beam     2
+1581             because     2
+1582             believe     2
+1583               below     2
+1584          benazepril     2
+1585                bend     2
+1586             berry's     2
+1587            bethesda     2
+1588             between     2
+1589               bicap     2
+1590            bifronto     2
+1591         bifurcation     2
+1592             biliary     2
+1593               bipap     2
+1594              bishop     2
+1595             bladder     2
+1596               bleed     2
+1597               board     2
+1598                bony     2
+1599              bother     2
+1600               bowie     2
+1601               brain     2
+1602              branch     2
+1603            branches     2
+1604              bregma     2
+1605           brevibloc     2
+1606               brief     2
+1607           broaching     2
+1608             broaden     2
+1609       bronchiolitis     2
+1610        bronchoscopy     2
+1611               brown     2
+1612               bruce     2
+1613               brush     2
+1614             bruxism     2
+1615               bulge     2
+1616               bunch     2
+1617                burn     2
+1618              burton     2
+1619             burying     2
+1620           calcified     2
+1621     cardiopulmonary     2
+1622      cardiovascular     2
+1623              carpal     2
+1624            carrying     2
+1625           cataracts     2
+1626                 ccs     2
+1627          cellulitis     2
+1628         cementation     2
+1629             central     2
+1630          cephalexin     2
+1631            cerebral     2
+1632     cerebrovascular     2
+1633                chew     2
+1634     cholecystectomy     2
+1635 choledocholithiasis     2
+1636              church     2
+1637           circulate     2
+1638   circumferentially     2
+1639        circumscribe     2
+1640                city     2
+1641            clamping     2
+1642            classify     2
+1643           cleveland     2
+1644          clinically     2
+1645           clonidine     2
+1646             closely     2
+1647                coat     2
+1648           cognitive     2
+1649                coil     2
+1650            coincide     2
+1651         collaborate     2
+1652            collapse     2
+1653             collect     2
+1654         colonoscopy     2
+1655             command     2
+1656            commands     2
+1657             comment     2
+1658             compare     2
+1659             compete     2
+1660             complex     2
+1661           complying     2
+1662            conceive     2
+1663             conduct     2
+1664           conjoined     2
+1665          connection     2
+1666       consideration     2
+1667             consist     2
+1668           constrict     2
+1669             contain     2
+1670        contaminated     2
+1671        continuously     2
+1672            contrast     2
+1673           contusion     2
+1674        convincingly     2
+1675            copaxone     2
+1676           copiously     2
+1677           correctly     2
+1678         corroborate     2
+1679         cosyntropin     2
+1680          cottonwood     2
+1681               crack     2
+1682             cranial     2
+1683           cranially     2
+1684               crown     2
+1685               crush     2
+1686             culture     2
+1687                cure     2
+1688               cycle     2
+1689        cyclosporine     2
+1690            cymbalta     2
+1691              cystic     2
+1692          cystoscopy     2
+1693                 d4t     2
+1694               daily     2
+1695               dairy     2
+1696              damage     2
+1697                days     2
+1698            december     2
+1699             deglove     2
+1700               delay     2
+1701            delirium     2
+1702               dense     2
+1703           dependent     2
+1704              derive     2
+1705         dermatology     2
+1706          desaturate     2
+1707             descend     2
+1708        desufflation     2
+1709              detail     2
+1710         deteriorate     2
+1711       devascularize     2
+1712            diagonal     2
+1713             dialyze     2
+1714                diet     2
+1715           difficult     2
+1716                 dig     2
+1717            dilaudid     2
+1718           diltiazem     2
+1719            directly     2
+1720             discern     2
+1721            disclose     2
+1722          disclosure     2
+1723          discussion     2
+1724            dislodge     2
+1725           dismissal     2
+1726            displace     2
+1727          dissecting     2
+1728             distend     2
+1729             disturb     2
+1730             diurese     2
+1731      diverticulosis     2
+1732            dividing     2
+1733             divorce     2
+1734           dizziness     2
+1735                 dmv     2
+1736                 dog     2
+1737            domestic     2
+1738           doripenem     2
+1739                down     2
+1740            drainage     2
+1741              drawer     2
+1742             drawing     2
+1743               dress     2
+1744               drift     2
+1745               droop     2
+1746               drugs     2
+1747                 due     2
+1748               early     2
+1749              easily     2
+1750             eastern     2
+1751                easy     2
+1752              eating     2
+1753                  ed     2
+1754         effectively     2
+1755                 ekg     2
+1756               elect     2
+1757              embark     2
+1758             embolic     2
+1759             emulate     2
+1760              enable     2
+1761           encompass     2
+1762       endometriosis     2
+1763           endoscopy     2
+1764            endstage     2
+1765            erythema     2
+1766          especially     2
+1767            estimate     2
+1768               event     2
+1769            evidence     2
+1770        exacerbation     2
+1771           excellent     2
+1772            excision     2
+1773             exhibit     2
+1774        explantation     2
+1775         exploratory     2
+1776            exposing     2
+1777            external     2
+1778               extra     2
+1779             extract     2
+1780          extubation     2
+1781                fact     2
+1782                fair     2
+1783             falsely     2
+1784                 fat     2
+1785                 fax     2
+1786             feeding     2
+1787             feeling     2
+1788              femara     2
+1789               femur     2
+1790               fever     2
+1791            fibroids     2
+1792              fibula     2
+1793               fifth     2
+1794                firm     2
+1795             fissure     2
+1796            fixation     2
+1797               float     2
+1798             florida     2
+1799               fluid     2
+1800               focal     2
+1801           following     2
+1802               foods     2
+1803                 for     2
+1804               force     2
+1805              forego     2
+1806              formal     2
+1807              foster     2
+1808            fracture     2
+1809           fractured     2
+1810              freeze     2
+1811          gallstones     2
+1812     gastroenteritis     2
+1813               gauge     2
+1814         generalized     2
+1815           generator     2
+1816              gentle     2
+1817             getting     2
+1818                  gi     2
+1819             glucose     2
+1820             grasses     2
+1821             gravida     2
+1822                gray     2
+1823             greater     2
+1824                grow     2
+1825            halstead     2
+1826                hand     2
+1827              harbor     2
+1828             harvest     2
+1829          harvesting     2
+1830            headache     2
+1831             healthy     2
+1832           heartland     2
+1833                heat     2
+1834             helping     2
+1835                 hem     2
+1836                heme     2
+1837            hemoclip     2
+1838          hemorrhage     2
+1839             heparin     2
+1840              heroin     2
+1841             hiccups     2
+1842              higher     2
+1843              highly     2
+1844           histology     2
+1845               hives     2
+1846              hockey     2
+1847            hormonal     2
+1848                 hpi     2
+1849                 hub     2
+1850           hutchison     2
+1851             hydrate     2
+1852        hypertensive     2
+1853      hyperviscosity     2
+1854         hypoplastic     2
+1855           hypotonic     2
+1856                  ii     2
+1857                 ill     2
+1858             illegal     2
+1859            impaired     2
+1860             implant     2
+1861            incising     2
+1862           incisions     2
+1863          incomplete     2
+1864             indocin     2
+1865             infarct     2
+1866              inform     2
+1867             infused     2
+1868           initially     2
+1869             inkwell     2
+1870              insect     2
+1871             instill     2
+1872            instruct     2
+1873        insufflation     2
+1874             intense     2
+1875        intercurrent     2
+1876           interface     2
+1877           interfere     2
+1878        intermediate     2
+1879        intermittent     2
+1880          internally     2
+1881            intimate     2
+1882    intraoperatively     2
+1883        intrapleural     2
+1884         intravenous     2
+1885      intravertebral     2
+1886           introduce     2
+1887           intubated     2
+1888          intubation     2
+1889         involuntary     2
+1890          irrigation     2
+1891        irritability     2
+1892            ischemia     2
+1893              issues     2
+1894              jargon     2
+1895           jefferson     2
+1896                july     2
+1897                jump     2
+1898                   k     2
+1899              keppra     2
+1900                kick     2
+1901              kidney     2
+1902             kindred     2
+1903                knee     2
+1904               kneel     2
+1905               known     2
+1906            kyphosis     2
+1907                  l5     2
+1908         lamotrigine     2
+1909                 las     2
+1910               laser     2
+1911              lavage     2
+1912               layer     2
+1913            leaflets     2
+1914             leaving     2
+1915        lenalidomide     2
+1916                less     2
+1917              lessen     2
+1918            levaquin     2
+1919             levemir     2
+1920        levofloxacin     2
+1921            lexiscan     2
+1922                like     2
+1923              limbus     2
+1924                line     2
+1925                 lma     2
+1926             lobster     2
+1927      longitudinally     2
+1928        longstanding     2
+1929                loss     2
+1930                loud     2
+1931              lukens     2
+1932     lymphadenectomy     2
+1933               major     2
+1934            manifest     2
+1935            manifold     2
+1936       massachusetts     2
+1937             massive     2
+1938              mature     2
+1939             maxilla     2
+1940          mcburney's     2
+1941          mechanical     2
+1942                 med     2
+1943            meditech     2
+1944             mention     2
+1945          mesenteric     2
+1946        mesothelioma     2
+1947            metallic     2
+1948          metastasis     2
+1949           methodist     2
+1950        methotrexate     2
+1951        meticulously     2
+1952                mhps     2
+1953               micro     2
+1954      microfractures     2
+1955       midclavicular     2
+1956            midnight     2
+1957          midportion     2
+1958             migrate     2
+1959               mimic     2
+1960          minimizing     2
+1961             minimum     2
+1962               minus     2
+1963             minutes     2
+1964        miscarriages     2
+1965                miss     2
+1966                mold     2
+1967           monopolar     2
+1968              mostly     2
+1969              motrin     2
+1970                  ms     2
+1971              mucosa     2
+1972               multi     2
+1973           multitude     2
+1974     musculoskeletal     2
+1975              myself     2
+1976               named     2
+1977               names     2
+1978               nasal     2
+1979         necessarily     2
+1980         necessitate     2
+1981             needing     2
+1982           negotiate     2
+1983         neovascular     2
+1984          nephrology     2
+1985     nephrosclerosis     2
+1986        neurosurgery     2
+1987                 new     2
+1988                nine     2
+1989       nonaccidental     2
+1990                none     2
+1991         noninvasive     2
+1992        nonsteroidal     2
+1993         nonsurgical     2
+1994        nonsustained     2
+1995           northwest     2
+1996            noticing     2
+1997            obstruct     2
+1998           obtaining     2
+1999              obtuse     2
+2000          occasional     2
+2001         odontogenic     2
+2002                  of     2
+2003            offenses     2
+2004               often     2
+2005                ohio     2
+2006             omnicef     2
+2007                  on     2
+2008             opacify     2
+2009             opening     2
+2010             optimal     2
+2011               orbit     2
+2012              organs     2
+2013          orthopedic     2
+2014         orthopedics     2
+2015         orthopedist     2
+2016         orthostatic     2
+2017      osteoarthritis     2
+2018         osteotomies     2
+2019        otosclerosis     2
+2020             outflow     2
+2021          overeating     2
+2022             overlap     2
+2023             overlay     2
+2024                pacs     2
+2025          palpations     2
+2026         parenchymal     2
+2027             parents     2
+2028             partial     2
+2029           partially     2
+2030               patch     2
+2031             patella     2
+2032         pathologist     2
+2033                 pda     2
+2034                peel     2
+2035                peep     2
+2036                 peg     2
+2037             pelican     2
+2038           perceived     2
+2039           perforate     2
+2040          perforated     2
+2041         performance     2
+2042              permit     2
+2043          persistent     2
+2044                 pex     2
+2045       phacoemulsify     2
+2046         pharyngitis     2
+2047           phenergan     2
+2048             picture     2
+2049            pinworms     2
+2050                pipe     2
+2051              planar     2
+2052            plastics     2
+2053               plate     2
+2054              please     2
+2055            podiatry     2
+2056              polish     2
+2057             pollens     2
+2058           popliteal     2
+2059         positioning     2
+2060            postdate     2
+2061     postgastrectomy     2
+2062         postradical     2
+2063           potential     2
+2064         potentially     2
+2065          potentiate     2
+2066           precisely     2
+2067             predict     2
+2068            presence     2
+2069             present     2
+2070            pressure     2
+2071              pretty     2
+2072            prevacid     2
+2073          previously     2
+2074            probable     2
+2075            prolapse     2
+2076          prominence     2
+2077              propel     2
+2078            protopic     2
+2079          providence     2
+2080                 pry     2
+2081          psychiatry     2
+2082       psychologists     2
+2083               pubis     2
+2084                pulp     2
+2085              punish     2
+2086              pureed     2
+2087            quantify     2
+2088         questioning     2
+2089               quite     2
+2090                   r     2
+2091             radiate     2
+2092           radiating     2
+2093         radioactive     2
+2094       radiobiologic     2
+2095     radiobiological     2
+2096            ragnells     2
+2097                 raw     2
+2098          reactivate     2
+2099             readily     2
+2100             readmit     2
+2101             realize     2
+2102             reaming     2
+2103            reappose     2
+2104      reapproximated     2
+2105            reassess     2
+2106           receiving     2
+2107         rechallenge     2
+2108         reconfigure     2
+2109          reconsider     2
+2110              rectum     2
+2111               recur     2
+2112                redo     2
+2113             reduced     2
+2114           reenforce     2
+2115          reevaluate     2
+2116              refill     2
+2117              refine     2
+2118              reject     2
+2119             relafen     2
+2120              relate     2
+2121               relax     2
+2122            relocate     2
+2123            removing     2
+2124           repairing     2
+2125            repeated     2
+2126        repetitively     2
+2127             replete     2
+2128               reply     2
+2129           reproduce     2
+2130           reprogram     2
+2131           resurface     2
+2132            retained     2
+2133         retinaculum     2
+2134            retrieve     2
+2135         retrobulbar     2
+2136           reversion     2
+2137            revision     2
+2138      rhabdomyolysis     2
+2139          rheumatoid     2
+2140                 rim     2
+2141               rinse     2
+2142               risks     2
+2143                  rt     2
+2144                  rv     2
+2145             salvage     2
+2146           salvaging     2
+2147            saturate     2
+2148           saucerize     2
+2149               scalp     2
+2150                scan     2
+2151                scar     2
+2152               scare     2
+2153            scarpa's     2
+2154           scheduled     2
+2155               score     2
+2156             scrotum     2
+2157               scrub     2
+2158           seasonale     2
+2159                seat     2
+2160             seattle     2
+2161             section     2
+2162            securing     2
+2163            seizures     2
+2164              select     2
+2165             seminal     2
+2166           sensitive     2
+2167         sensitivity     2
+2168           separated     2
+2169              septra     2
+2170            seroquel     2
+2171               setup     2
+2172               shaft     2
+2173               sharp     2
+2174             sharply     2
+2175                 she     2
+2176           shellfish     2
+2177            shoplift     2
+2178             shuffle     2
+2179                shut     2
+2180             sigmoid     2
+2181       significantly     2
+2182              simply     2
+2183             sinemet     2
+2184              siskin     2
+2185      situation.deep     2
+2186         skeletonize     2
+2187               slide     2
+2188                snug     2
+2189            sobriety     2
+2190             someone     2
+2191           something     2
+2192           somewhere     2
+2193           somnolent     2
+2194               south     2
+2195               spank     2
+2196             special     2
+2197             specify     2
+2198            specimen     2
+2199              speech     2
+2200               speed     2
+2201               spend     2
+2202            spillage     2
+2203               spine     2
+2204               split     2
+2205         spontaneous     2
+2206              spring     2
+2207            squamous     2
+2208             squeeze     2
+2209           stability     2
+2210              staple     2
+2211              starve     2
+2212              stasis     2
+2213             statins     2
+2214             stensen     2
+2215               steri     2
+2216            stimulus     2
+2217             stomach     2
+2218         strangulate     2
+2219               strep     2
+2220             stretch     2
+2221           stricture     2
+2222            struggle     2
+2223               stump     2
+2224        suboptimally     2
+2225       subperiosteal     2
+2226           substance     2
+2227        successfully     2
+2228                suck     2
+2229          sufficient     2
+2230            suitable     2
+2231       sulfasalazine     2
+2232          superiorly     2
+2233              supple     2
+2234              supply     2
+2235          supportive     2
+2236         suppression     2
+2237    supratherapeutic     2
+2238                swim     2
+2239             symptom     2
+2240      systematically     2
+2241            systolic     2
+2242                  t2     2
+2243                  t3     2
+2244              tablet     2
+2245          tachybrady     2
+2246              tackle     2
+2247              tacoma     2
+2248                 tag     2
+2249               tahoe     2
+2250           tamoxifen     2
+2251              tandem     2
+2252                tape     2
+2253                 tcu     2
+2254               teach     2
+2255            teaching     2
+2256            tegretol     2
+2257           temazepam     2
+2258            temporal     2
+2259           temporary     2
+2260                tent     2
+2261         terminating     2
+2262            tertiary     2
+2263          testicular     2
+2264             testing     2
+2265             tetanus     2
+2266         therapeutic     2
+2267             therapy     2
+2268               there     2
+2269               thick     2
+2270               thigh     2
+2271              things     2
+2272           throbbing     2
+2273    thrombocytopenia     2
+2274      thromboembolic     2
+2275              tibial     2
+2276                tilt     2
+2277                timi     2
+2278            tingling     2
+2279                 tip     2
+2280             tobacco     2
+2281             today’s     2
+2282           tolerance     2
+2283            tortuous     2
+2284                toto     2
+2285                town     2
+2286                 tpa     2
+2287               trace     2
+2288        tracheostomy     2
+2289               tract     2
+2290               train     2
+2291   transilluminating     2
+2292          transition     2
+2293           transpose     2
+2294       transthoracic     2
+2295           traveling     2
+2296           trazodone     2
+2297             tremors     2
+2298               trend     2
+2299             trickle     2
+2300           trileptal     2
+2301                trim     2
+2302             triumph     2
+2303           troubling     2
+2304              twelve     2
+2305               twist     2
+2306              twitch     2
+2307             tylenol     2
+2308          ultimately     2
+2309              ultram     2
+2310           umbilicus     2
+2311              unable     2
+2312          uninvolved     2
+2313               unite     2
+2314          university     2
+2315             unknown     2
+2316              unload     2
+2317                 unm     2
+2318         unprotected     2
+2319             untorse     2
+2320                  up     2
+2321             urgency     2
+2322               urine     2
+2323             urology     2
+2324               using     2
+2325             uterine     2
+2326                   v     2
+2327                  v3     2
+2328                  v4     2
+2329            valsalva     2
+2330            vaporize     2
+2331            vascular     2
+2332                veer     2
+2333               venom     2
+2334          ventilator     2
+2335           verbalize     2
+2336            verbally     2
+2337              vertex     2
+2338        verumontanum     2
+2339             vessels     2
+2340            victoria     2
+2341          visualized     2
+2342             voicing     2
+2343           volunteer     2
+2344                vote     2
+2345                  vq     2
+2346              weaken     2
+2347             weaning     2
+2348               wedge     2
+2349               weigh     2
+2350               whole     2
+2351                wire     2
+2352                with     2
+2353          withdrawal     2
+2354             without     2
+2355           witnesses     2
+2356             working     2
+2357              workup     2
+2358           worsening     2
+2359               wrest     2
+2360               wrist     2
+2361                 xxx     2
+2362             xxxxx's     2
+2363                   y     2
+2364               years     2
+2365                 yes     2
+2366           yesterday     2
+2367              zofran     2
+2368             zyprexa     2
+2369              zyrtec     2
+2370                 1.2     1
+2371                10.2     1
+2372                 127     1
+2373                130s     1
+2374                2.04     1
+2375                 2.3     1
+2376                2.67     1
+2377                20.2     1
+2378                 360     1
+2379                6.25     1
+2380                 60s     1
+2381                89.2     1
+2382                  97     1
+2383                aaaa     1
+2384             abolish     1
+2385          accumulate     1
+2386            advanced     1
+2387               affix     1
+2388              always     1
+2389           anchorage     1
+2390              angola     1
+2391             animals     1
+2392            arousals     1
+2393            asystole     1
+2394           athlete's     1
+2395           attention     1
+2396           available     1
+2397          blackheads     1
+2398         bradycardia     1
+2399          california     1
+2400             changes     1
+2401               choke     1
+2402                cite     1
+2403                code     1
+2404       concentration     1
+2405             consume     1
+2406          continuous     1
+2407            contract     1
+2408                cook     1
+2409           cortisone     1
+2410          creatinine     1
+2411            deformed     1
+2412          depression     1
+2413             desired     1
+2414   devascularization     1
+2415            diagnose     1
+2416            discover     1
+2417            distance     1
+2418                 ear     1
+2419           eclampsia     1
+2420      electrocautery     1
+2421            encircle     1
+2422            equalize     1
+2423          esophageal     1
+2424               evoke     1
+2425              excess     1
+2426             explode     1
+2427          fasciotomy     1
+2428             finding     1
+2429               flare     1
+2430               freed     1
+2431      identification     1
+2432                  if     1
+2433         immediately     1
+2434         impulsivity     1
+2435             incised     1
+2436          increasing     1
+2437     intraperitoneal     1
+2438                 jog     1
+2439               joint     1
+2440              larger     1
+2441             locally     1
+2442          malignancy     1
+2443          metastatic     1
+2444            modified     1
+2445              months     1
+2446                mood     1
+2447                 mow     1
+2448         noncontrast     1
+2449           opacified     1
+2450             outgrow     1
+2451            overdose     1
+2452               panic     1
+2453      paraneoplastic     1
+2454             persons     1
+2455          physically     1
+2456           pregnancy     1
+2457           pronounce     1
+2458           provision     1
+2459                pump     1
+2460            quitting     1
+2461       refrigeration     1
+2462              refuse     1
+2463            register     1
+2464              result     1
+2465     retroperitoneum     1
+2466                rust     1
+2467                sids     1
+2468                sole     1
+2469            sorbitol     1
+2470               spina     1
+2471              stated     1
+2472               stick     1
+2473               stray     1
+2474            subtract     1
+2475            sunbathe     1
+2476            sunlight     1
+2477           surgeon's     1
+2478           suspicion     1
+2479                 t11     1
+2480               taxol     1
+2481               tenth     1
+2482        thanksgiving     1
+2483             through     1
+2484              travel     1
+2485                undo     1
+2486              unfold     1
+2487                vail     1
+2488                warm     1
+2489          wellbutrin     1
+2490          wheelchair     1
+2491             workout     1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mttoken.bigram.to<span class="fl">.20</span> <span class="ot">&lt;-</span> mt <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_ngrams</span>(ngram, transcription, <span class="at">n =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(ngram, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"word1"</span>, <span class="st">"word2"</span>), <span class="at">sep =</span> <span class="st">" "</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(word1, word2) <span class="sc">%&gt;%</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word1 <span class="sc">==</span> <span class="st">"to"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word2, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">20</span>, n)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>mttoken.bigram.to<span class="fl">.20</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          word2     n
+1           the 12374
+2            be  4345
+3          have  1402
+4             a   688
+5           her   615
+6           his   526
+7  auscultation   494
+8       proceed   465
+9          make   437
+10        light   405
+11          see   381
+12     recovery   373
+13       follow   333
+14          get   333
+15           do   313
+16       remove   302
+17         this   268
+18    pathology   259
+19      perform   245
+20           go   237</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="question-6" class="level1">
+<h1><strong>Question 6</strong></h1>
+<section id="which-words-are-most-used-in-each-of-the-specialties.-you-can-use-group_by-and-top_n-from-dplyr-to-have-the-calculations-be-done-within-each-specialty.-remember-to-remove-stopwords.-how-about-the-most-5-used-words" class="level4">
+<h4 class="anchored" data-anchor-id="which-words-are-most-used-in-each-of-the-specialties.-you-can-use-group_by-and-top_n-from-dplyr-to-have-the-calculations-be-done-within-each-specialty.-remember-to-remove-stopwords.-how-about-the-most-5-used-words">Which words are most used in each of the specialties. you can use <code>group_by()</code> and <code>top_n()</code> from <code>dplyr</code> to have the calculations be done within each specialty. Remember to remove stopwords. How about the most 5 used words?</h4>
+<p>Most common surgery words: Patient, left, procedure, 0, 1 (I presume also right was in here)</p>
+<p>Most common Consult words: Patient, history (makes sense)</p>
+<p>Most common Orthopedic words: Patient</p>
+<p>Most common Cardiovascular words: Left (heart is on the left so the makes sense), patient</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>mttoken.specialty.nostops <span class="ot">&lt;-</span> mt <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(token, transcription) <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"token"</span> <span class="ot">=</span> <span class="st">"word"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(medical_specialty) <span class="sc">%&gt;%</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(token, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>, n)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>mttoken.specialty.nostops</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 209 × 3
+# Groups:   medical_specialty [40]
+   medical_specialty             token         n
+   &lt;chr&gt;                         &lt;chr&gt;     &lt;int&gt;
+ 1 " Surgery"                    patient    4855
+ 2 " Surgery"                    left       3263
+ 3 " Surgery"                    procedure  3243
+ 4 " Consult - History and Phy." patient    3046
+ 5 " Consult - History and Phy." history    2820
+ 6 " Surgery"                    0          2094
+ 7 " Surgery"                    1          2038
+ 8 " Orthopedic"                 patient    1711
+ 9 " Cardiovascular / Pulmonary" left       1550
+10 " Cardiovascular / Pulmonary" patient    1516
+# ℹ 199 more rows</code></pre>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
