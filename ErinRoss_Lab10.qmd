@@ -1,0 +1,202 @@
+---
+title: "566 Lab10 - SQL"
+author: "Erin Ross"
+format: 
+  html:
+    embed-resources: true
+editor: visual
+---
+
+Hi Dr. Kelly
+
+I am struggling to get the SQL connection to work and have set up the connection, so none of the code chunks after code chunk 2 will run. Google and Chat GPT didn't solutions that helped and unfortunately I am at a conference so have limited time to spend troubleshooting this. I have typed all my code as I think it should be written in the hopes that will get some partial credit.
+
+Thanks,
+
+Erin Ross
+
+```{r}
+library(RSQLite)
+library(DBI)
+
+# Initialize a temporary in memory database
+con <- dbConnect(SQLite(), dbname = ":memory:")
+
+# Download tables
+actor <- read.csv("https://raw.githubusercontent.com/ivanceras/sakila/master/csv-sakila-db/actor.csv")
+rental <- read.csv("https://raw.githubusercontent.com/ivanceras/sakila/master/csv-sakila-db/rental.csv")
+customer <- read.csv("https://raw.githubusercontent.com/ivanceras/sakila/master/csv-sakila-db/customer.csv")
+payment <- read.csv("https://raw.githubusercontent.com/ivanceras/sakila/master/csv-sakila-db/payment_p2007_01.csv")
+```
+
+```{sql, connection="con"}
+# Copy data.frames to database
+dbWriteTable(con, "actor", actor)
+dbWriteTable(con, "rental", rental)
+dbWriteTable(con, "customer", customer)
+dbWriteTable(con, "payment", payment)
+```
+
+```{sql, connection="con"}
+dbListTables(con)
+```
+
+# **Exercise 1**
+
+#### Edit the code below to retrieve the actor ID, first name and last name for all actors using the `actor` table. Sort by last name and then by first name.
+
+```{sql, connection="con"}
+SELECT actor_id, first_name, last_name
+FROM actor
+ORDER by last_name, first_name
+```
+
+# **Exercise 2**
+
+Retrieve the actor ID, first name, and last name for actors whose last name equals \'WILLIAMS\' or \'DAVIS\'.
+
+```{sql, connection = "con"}
+SELECT actor_id, first_name, last_name
+FROM actor
+WHERE last_name IN ('WILLIAMS', 'DAVIS')
+```
+
+# **Exercise 3**
+
+Write a query against the `rental` table that returns the IDs of the customers who rented a film on July 5, 2005 (use the rental.rental_date column, and you can use the `date()` function to ignore the time component). Include a single row for each distinct customer ID.
+
+```{sql, connection = "con"}
+SELECT DISTINCT customer_id
+FROM rental
+WHERE date(rental_date) = '2005-07-05'
+```
+
+# **Exercise 4**
+
+## **Exercise 4.1**
+
+Construct a query that retrieves all rows from the `payment` table where the amount is either 1.99, 7.99, 9.99.
+
+```{sql, connection = "con"}
+SELECT *
+FROM payment
+WHERE amount IN (1.99, 7.99, 9.99)
+```
+
+## **Exercise 4.2**
+
+Construct a query that retrieves all rows from the `payment` table where the amount is greater then 5.
+
+```{sql, connection = "con"}
+SELECT *
+FROM payment
+WHERE amount > 5
+```
+
+## **Exercise 4.3**
+
+Construct a query that retrieves all rows from the `payment` table where the amount is greater then 5 and less then 8.
+
+```{sql, connection = "con"}
+SELECT *
+FROM payment
+WHERE amount >5 AND <8
+```
+
+# **Exercise 5**
+
+Retrieve all the payment IDs and their amounts from the customers whose last name is \'DAVIS\'.
+
+```{sql, connection = "con"}
+SELECT payment_id, amount
+FROM payment
+  INNER JOIN 
+WHERE last_name IN 'DAVIS'
+AND 
+```
+
+# **Exercise 6**
+
+## **Exercise 6.1**
+
+Use `COUNT(*)` to count the number of rows in `rental`.
+
+```{sql, connection = "con"}
+COUNT(rental)
+```
+
+## **Exercise 6.2**
+
+Use `COUNT(*)` and `GROUP BY` to count the number of rentals for each `customer_id`.
+
+```{sql, connection = "con"}
+COUNT(rental)
+BY customer_id
+```
+
+## **Exercise 6.3**
+
+Repeat the previous query and sort by the count in descending order.
+
+```{sql, connection = "con"}
+COUNT(rental)
+BY customer_id
+ORDER by COUNT(rental)
+```
+
+## **Exercise 6.4**
+
+Repeat the previous query but use `HAVING` to only keep the groups with 40 or more.
+
+```{sql, connection = "con"}
+COUNT(rental)
+BY customer_id
+WHERE COUNT(rental) > 40
+ORDER by COUNT(rental)
+```
+
+# **Exercise 7**
+
+Write a query that calculates a number of summary statistics for the payment table using `MAX`, `MIN`, `AVG` and `SUM`
+
+```{sql, connection = "con"}
+SELECT 
+  AVG(amount) AS avg_amount, 
+  MIN(amount) AS min_amount,
+  MAX(amount) AS max_amount,
+  SUM(amount) AS sum_amount,
+FROM payment
+```
+
+## **Exercise 7.1**
+
+Modify the above query to do those calculations for each `customer_id`.
+
+```{sql, connection = "con"}
+SELECT 
+  AVG(amount) AS avg_amount, 
+  MIN(amount) AS min_amount,
+  MAX(amount) AS max_amount,
+  SUM(amount) AS sum_amount,
+BY customer_id
+FROM payment
+```
+
+## **Exercise 7.2**
+
+Modify the above query to only keep the `customer_id`s that have more then 5 payments.
+
+```{sql, connection = "con"}
+SELECT 
+  AVG(amount) AS avg_amount, 
+  MIN(amount) AS min_amount,
+  MAX(amount) AS max_amount,
+  SUM(amount) AS sum_amount,
+BY customer_id
+WHERE COUNT(*) > 5
+FROM payment
+```
+
+```{sql, connection = "con"}
+dbDisconnect(con)
+```
